@@ -1,9 +1,20 @@
 <template>
-    <header>
-        <nav class="primaryNavigation">
+    <header class="container">
+        <button
+            v-on:click="toggleMenu"
+            class="menuBars"
+        >
+            <AppIcon
+                name="bars"
+            />
+        </button>
+        <nav 
+            v-if="hasExpandedMenu"
+            class="primaryNavigation"
+        >
             <ul 
-                v-for="item in nav.items"
-                v-bind:key="item.name"
+                v-for="(item, index) in nav.items"
+                v-bind:key="index"
             >
                 <li class="navItem">
                     <a v-bind:href="item.link">{{ item.name }}</a>
@@ -14,9 +25,15 @@
 </template>
 
 <script>
+    import AppIcon from '@/components/framework/AppIcon';
+
     export default {
+        components: {
+            AppIcon,
+        },
         data () {
             return {
+                hasExpandedMenu: false,
                 nav: {
                     items: [
                         {
@@ -42,6 +59,12 @@
                     ],
                 },
             };
+        },
+        methods: {
+            toggleMenu () {
+                console.log('test');
+                this.hasExpandedMenu = !this.hasExpandedMenu;
+            }
         }
     }
 </script>
@@ -49,11 +72,21 @@
 <style lang="scss">
     // @import '@assets/css'
 
+    .container {
+        @apply flex flex-row-reverse p-10;
+    }
+
     .primaryNavigation {
-        @apply flex flex-row;
+        @apply flex flex-row mr-10;
 
         .navItem {
             @apply list-reset;
+        }
+    }
+
+    .menuBars {
+        &:focus {
+            @apply outline-none;
         }
     }
 
