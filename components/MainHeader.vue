@@ -1,8 +1,8 @@
 <template>
-    <header class="container">
+    <header v-bind:class="$style.headerContainer">
         <button
             v-on:click="toggleMenu"
-            class="menuBars"
+            v-bind:class="$style.menuBarsBtn"
         >
             <AppIcon
                 name="bars"
@@ -10,13 +10,14 @@
         </button>
         <nav 
             v-if="hasExpandedMenu"
-            class="primaryNavigation"
+            v-bind:class="$style.primaryNavigation"
         >
-            <ul 
-                v-for="(item, index) in nav.items"
-                v-bind:key="index"
-            >
-                <li class="navItem">
+            <ul>
+                <li
+                    v-for="(item, index) in nav.items"
+                    v-bind:key="index"
+                    v-bind:class="$style.navItem"
+                >
                     <a v-bind:href="item.link">{{ item.name }}</a>
                 </li>
             </ul>
@@ -62,29 +63,37 @@
         },
         methods: {
             toggleMenu () {
-                console.log('test');
                 this.hasExpandedMenu = !this.hasExpandedMenu;
             }
         }
     }
 </script>
 
-<style lang="scss">
-    // @import '@assets/css'
+<style lang="scss" module>
 
-    .container {
+    .headerContainer {
         @apply flex flex-row-reverse p-10;
     }
 
     .primaryNavigation {
-        @apply flex flex-row mr-10;
+        @apply w-full;
+
+        ul {
+            @apply flex flex-row mr-10;
+        }
 
         .navItem {
-            @apply list-reset;
+            @apply list-reset w-1/5;
+
+            a {
+                @apply no-underline;
+            }
         }
     }
 
-    .menuBars {
+    .menuBarsBtn {
+        @apply z-20;
+
         &:focus {
             @apply outline-none;
         }
