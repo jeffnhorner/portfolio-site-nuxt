@@ -1,7 +1,7 @@
 <template>
     <div class="">
         <img
-            v-bind:src="image"
+            v-bind:src="imagePath"
             v-bind:alt="alt"
         >
     </div>
@@ -19,9 +19,10 @@
                 required: true,
             },
         },
+        computed: {
+            imagePath () {
+                return '/_nuxt/' + this.image;
+            }
+        }
     }
 </script>
-
-<style lang="scss">
-    
-</style>

@@ -1,35 +1,58 @@
 <template>
-    <header v-bind:class="$style.headerContainer">
-        <button
-            v-on:click="toggleMenu"
-            v-bind:class="$style.menuBarsBtn"
+    <div v-bind:class="[
+        { [$style.visibleContainer] : hasExpandedMenu },
+        $style.container
+        ]"
+    >
+        <header v-bind:class="$style.headerTop">
+            <nav
+                v-bind:class="$style.primaryNavigation"
+            >
+                <ul>
+                    <li
+                        v-for="(item, index) in nav.items"
+                        v-bind:key="index"
+                        v-on:click="closeMenu"
+                        v-bind:class="$style.navItem"
+                    >
+                        <nuxt-link
+                            v-bind:class="$style.navLink"
+                            v-bind:to="item.link">{{ item.name }}
+                        </nuxt-link>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <div v-bind:class="[
+            { [$style.headerBottomShift] : hasExpandedMenu },
+            $style.headerBottom
+            ]"
         >
-            <AppIcon
-                name="bars"
-            />
-        </button>
-        <nav 
-            v-if="hasExpandedMenu"
-            v-bind:class="$style.primaryNavigation"
-        >
-            <ul>
-                <li
-                    v-for="(item, index) in nav.items"
-                    v-bind:key="index"
-                    v-bind:class="$style.navItem"
-                >
-                    <a v-bind:href="item.link">{{ item.name }}</a>
-                </li>
-            </ul>
-        </nav>
-    </header>
+            <AppImage
+                image="static/images/jnh-logo.png"
+                alt="Jeff Horner logo"
+                v-bind:class="$style.logo"
+            >
+            </AppImage>
+            <button
+                v-on:click="toggleMenu"
+                v-bind:class="$style.menuBarsBtn"
+            >
+                <AppIcon
+                    v-bind:name="hasExpandedMenu ? 'times' : 'bars'"
+                />
+            </button>
+        </div>
+    </div>
 </template>
 
 <script>
+    import AppImage from '@/components/framework/AppImage';
     import AppIcon from '@/components/framework/AppIcon';
 
     export default {
         components: {
+            AppImage,
             AppIcon,
         },
         data () {
@@ -42,16 +65,20 @@
                             link: '/',
                         },
                         {
-                            name: 'about',
-                            link: '/about',
-                        },
-                        {
                             name: 'portfolio',
                             link: '/portfolio',
                         },
                         {
+                            name: 'about',
+                            link: 'about',
+                        },
+                        {
                             name: 'learn-to-code',
                             link: '/learn-to-code',
+                        },
+                        {
+                            name: 'blog',
+                            link: '/blog',
                         },
                         {
                             name: 'contact',
@@ -64,38 +91,82 @@
         methods: {
             toggleMenu () {
                 this.hasExpandedMenu = !this.hasExpandedMenu;
+            },
+            closeMenu () {
+                if (this.hasExpandedMenu) {
+                    console.log('test');
+                    this.hasExpandedMenu = false;
+                }
             }
-        }
+        },
     }
 </script>
 
 <style lang="scss" module>
 
-    .headerContainer {
-        @apply flex flex-row-reverse p-10;
+    .container {
+        @apply items-center flex flex-col;
+        transition: transform 500ms;
+        transform: translateY(-75%);
+
+        &.visibleContainer {
+            transform: translateY(0);
+        }
+    }
+
+    .headerTop {
+        @apply flex flex-row-reverse w-full;
+    }
+
+    .headerBottom {
+        @apply flex flex-row justify-between mt-8 mx-10 w-full;
+        max-width: 75%;
     }
 
     .primaryNavigation {
         @apply w-full;
 
         ul {
-            @apply flex flex-row mr-10;
+            @apply flex flex-row text-center pl-0;
+            height: 100%;
         }
 
         .navItem {
             @apply list-reset w-1/5;
+            background-color: #F3F3F3;
+            border: 1px solid #DDDDDD;
+            transition: all .2s ease-in-out;
 
-            a {
-                @apply no-underline;
+            &:hover {
+                border-color: #0071FF;
+                background-color: #0071FF;
+
+                > a {
+                    color: #fff;
+                }
+            }
+
+            .navLink {
+                @apply block font-semibold h-full no-underline text-sm;
+                color: #262626;
+                padding: 6.5rem 0;
             }
         }
     }
 
     .menuBarsBtn {
-        @apply z-20;
+        @apply z-50;
 
         &:focus {
             @apply outline-none;
+        }
+    }
+
+    .logo {
+        @apply h-12 w-12;
+
+        > img {
+            @apply h-full w-full;
         }
     }
 
