@@ -16,7 +16,7 @@
 </script>
 
 
-<style>
+<style lang="scss">
     html {
         font-family: 'Montserrat', sans-serif;
         font-size: 16px;
@@ -37,7 +37,7 @@
     }
 
     .nuxt-link-exact-active {
-        border-color: #0071FF;
+        border-color: #0071FF !important;
         background-color: #0071FF;
         color: #fff !important;
     }

@@ -4,17 +4,24 @@
         $style.container
         ]"
     >
-        <header v-bind:class="$style.headerTop">
+        <header v-bind:class="$style.headerTop"
+        >
             <nav
                 v-bind:class="$style.primaryNavigation"
             >
-                <ul>
+                <ul
+                >
                     <li
                         v-for="(item, index) in nav.items"
                         v-bind:key="index"
                         v-on:click="closeMenu"
                         v-bind:class="$style.navItem"
                     >
+                        <AppIcon
+                            v-bind:name="item.icon"
+                            v-bind:transform="'shrink-2'"
+                            v-bind:class="$style.navIcon"
+                        />
                         <nuxt-link
                             v-bind:class="$style.navLink"
                             v-bind:to="item.link">{{ item.name }}
@@ -63,26 +70,32 @@
                         {
                             name: 'home',
                             link: '/',
+                            icon: 'home',
                         },
                         {
                             name: 'portfolio',
                             link: '/portfolio',
+                            icon: 'wrench',
                         },
                         {
                             name: 'about',
                             link: 'about',
+                            icon: 'book',
                         },
                         {
                             name: 'learn-to-code',
                             link: '/learn-to-code',
+                            icon: 'code',
                         },
                         {
                             name: 'blog',
                             link: '/blog',
+                            icon: 'pencil-alt',
                         },
                         {
                             name: 'contact',
                             link: '/contact',
+                            icon: 'envelope',
                         },
                     ],
                 },
@@ -94,7 +107,6 @@
             },
             closeMenu () {
                 if (this.hasExpandedMenu) {
-                    console.log('test');
                     this.hasExpandedMenu = false;
                 }
             }
@@ -133,17 +145,35 @@
 
         .navItem {
             @apply list-reset w-1/5;
-            background-color: #F3F3F3;
-            border: 1px solid #DDDDDD;
+            background-color: #F7F7F7;
             transition: all .2s ease-in-out;
 
             &:hover {
-                border-color: #0071FF;
-                background-color: #0071FF;
-
                 > a {
                     color: #fff;
                 }
+
+                > .navIcon > svg {
+                    color: #fff;
+                }
+            }
+
+            > a {
+                border-top: .025rem solid #f0f0f0;
+                border-bottom: .025rem solid #f0f0f0;
+                border-left: .025rem solid #f0f0f0;
+
+                &:hover {
+                    border-color: #0071FF;
+                    background-color: #0071FF;
+                }
+            }
+
+            .navIcon {
+                @apply relative;
+                color: #262626;
+                height: 0;
+                top: 36%;
             }
 
             .navLink {

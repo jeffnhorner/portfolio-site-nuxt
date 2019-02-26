@@ -2,6 +2,7 @@
     <div>
         <font-awesome-icon
             v-bind:icon="name"
+            v-bind:transform="transform"
         ></font-awesome-icon>
     </div>
 </template>
@@ -13,11 +14,23 @@
     import {
         faBars,
         faTimes,
+        faHome,
+        faWrench,
+        faBook,
+        faCode,
+        faPencilAlt,
+        faEnvelope,
     } from '@fortawesome/free-solid-svg-icons'
 
     library.add(
         faBars,
         faTimes,
+        faHome,
+        faWrench,
+        faBook,
+        faCode,
+        faPencilAlt,
+        faEnvelope,
     )
 
     Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -29,8 +42,12 @@
                     Array,
                     String,
                 ],
-            required: true,
+                required: true,
             },
+            transform: {
+                type: String,
+                default: '',
+            }
         },
     }
 </script>
